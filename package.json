@@ -1,0 +1,51 @@
+{
+  "name": "dida",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@7.17.0",
+  "engines": {
+    "node": ">=16.14.0"
+  },
+  "scripts": {
+    "bootstrap": "cross-env CYPRESS_INSTALL_BINARY=0 pnpm i",
+    "dev:fe": "pnpm -F frontend dev",
+    "dev:be": "pnpm -F backend start",
+    "build:fe": "pnpm -F frontend build",
+    "build": "turbo build",
+    "test": "pnpm -F frontend test && pnpm -F backend test && pnpm -F backend test:e2e",
+    "prepare": "simple-git-hooks",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "dep:up": "taze -Ir major"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.34.1",
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
+    "@types/node": "^18.13.0",
+    "eslint": "^8.33.0",
+    "lint-staged": "^13.1.1",
+    "simple-git-hooks": "^2.8.1",
+    "taze": "^0.8.5",
+    "turbo": "^1.7.4",
+    "typescript": "^4.9.5"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged",
+    "commit-msg": "pnpm exec commitlint --edit \"${1}\""
+  },
+  "lint-staged": {
+    "*.{js,ts,json,md,jsx,tsx,vue,yml,yaml}": [
+      "eslint --fix"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "@antfu"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
